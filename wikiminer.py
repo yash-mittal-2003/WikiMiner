@@ -14,7 +14,7 @@ nltk.download('punkt_tab')
 
 !pip install indic-nlp-library
 
-!python -m spacy download xx_ent_wiki_sm
+!python3 -m spacy download xx_ent_wiki_sm
 
 ###############################################################################
 # FULL SCRIPT  – single‑pass crawl + multi‑threshold export
