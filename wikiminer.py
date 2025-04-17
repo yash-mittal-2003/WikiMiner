@@ -48,7 +48,7 @@ from urllib3.util.retry import Retry
 # ------------------------------------------------------------------ #
 session = requests.Session()
 session.headers.update({
-    "User-Agent": "WikiMiner/1.0 (eaa1.17037505@gmail.com)"  # <-- put real email
+    "User-Agent": "WikiMiner/1.0 (sample@email.com)"  # <-- put real email
 })
 retry = Retry(
     total=5,                # up to 5 retries
