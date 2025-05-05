@@ -3,6 +3,15 @@
 
 ---
 
+## Repository Layout
+
+| Path | Purpose |
+|------|---------|
+| **`WikiMiner_final.ipynb`** | Crawls Wikipedia, builds 15 threshold‑indexed parallel corpora (11 Indic languages), projects NER tags, and writes statistics. |
+| **`Fine_tune_comparison.ipynb`** | Compares two Indic‑BERT fine‑tunes: (i) gold **Naamapadam** only, (ii) gold + Wikipedia silver. |
+
+---
+
 ## 1  What the script does & why
 | Stage | Goal | Core idea |
 |-------|------|-----------|
@@ -53,6 +62,8 @@ Total of **3×5 = 15** corpora per language produced in one run.
 | `num_pairs` | aggregate & category | raw size of the corpus after filters. |
 | `mean_cosine` | "" | average semantic similarity → proxy for translation quality. |
 | `mean_alignment` | "" | average word‑coverage from SimAlign → structural faithfulness. |
+| `avg_en_len`, `avg_tgt_len`, `avg_len_ratio`| "" |	sentence‑length sanity checks. |
+| `avg_token_coverage` | "" | fraction of English tokens aligned (how many tags survive projection) |
 
 Per‑category roll‑ups highlight topical domains that align well (e.g. literature) versus those that struggle (e.g. song lyrics).
 
@@ -128,6 +139,28 @@ python -m spacy download en_core_web_sm
 Don’t forget to clone `indic_nlp_resources` and set `INDIC_RESOURCES_PATH`.
 
 ---
+
+## 9  Fine‑Tune Comparison Notebook (`Fine_tune_comparison.ipynb`)
+
+| Step&nbsp;# | Action |
+|-------------|--------|
+| **1 Data selection** | Pick a `(τ, α)` slice (default: Assamese, τ = 0.6, α = 0.4). |
+| **2 Dataset merge** | Combine gold **Naamapadam** with (optionally) the Wikipedia silver slice. |
+| **3 Token alignment** | Indic‑BERT tokenizer aligns word‑pieces → BIO tags (sub‑word indices masked with `‑100`). |
+| **4 Two runs** | **Baseline** = gold only · **Augmented** = gold + silver. |
+| **5 Logging** | Epoch‑wise loss / precision / recall / F1 printed; learning‑curve PNG written to `figures/`. |
+| **6 Results** | Per‑epoch metrics exported as **CSV** and **XLSX** under `results/`. |
+
+```python
+# Example cell – run inside Fine_tune_comparison.ipynb
+run_experiment(
+    lang        = "as",   # Assamese
+    tau         = 0.6,
+    alpha       = 0.4,
+    num_epochs  = 10,
+    batch_size  = 32
+)
+
 
 ### Enjoy mining parallel corpora!  
 For any questions or improvements, feel free to reach out.
