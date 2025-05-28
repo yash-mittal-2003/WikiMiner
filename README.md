@@ -163,4 +163,4 @@ run_experiment(
 ```
 
 ### Enjoy mining parallel corpora!  
-For any questions or improvements, feel free to reach out.
+For any questions or improvements, feel free to reach out to us.
